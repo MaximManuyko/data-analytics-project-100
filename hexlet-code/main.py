@@ -607,6 +607,4 @@ def registrations_ads():
 
 registrations_ads()
 
-
 print('Ok')
-

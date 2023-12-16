@@ -1,4 +1,4 @@
-def main():
+def run_all():
     import pandas as pd
     import requests
     import matplotlib.pyplot as plt
@@ -710,4 +710,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    run_all()

@@ -324,7 +324,7 @@ def run_all():
         current_directory = os.path.dirname(os.path.abspath(__file__))
 
         # Формируем путь для сохранения файла в текущей директории
-        file_path = os.path.join(current_directory, 'total_visits_chart.png')
+        file_path = os.path.join(current_directory, 'total_visits.png')
 
         # Сохраняем график
         plt.savefig(file_path, bbox_inches='tight')
@@ -706,6 +706,7 @@ def run_all():
         # Сохраняем график
         plt.savefig(file_path, bbox_inches='tight')
 
+        #plt.show()
     registrations_ads()
 
 

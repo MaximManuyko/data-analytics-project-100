@@ -10,20 +10,9 @@ from matplotlib.ticker import MultipleLocator
 import os
 from dotenv import load_dotenv
 
-
 API_URL = "https://data-charts-api.hexlet.app"
 DATE_BEGIN = '2023-03-01'
 DATE_END = '2023-06-01'
-
-
-def save_graf(name_png):
-    current_file_path = os.path.abspath(__file__)
-    current_directory = os.path.dirname(current_file_path)
-    charts_directory = os.path.join(current_directory, 'charts')
-    if not os.path.exists(charts_directory):
-        os.makedirs(charts_directory)
-    plt.savefig(os.path.join(charts_directory, f'{name_png}.png'), bbox_inches='tight')
-
 
 def visits_API_download():
     response = requests.get(f"{API_URL}/visits?begin={DATE_BEGIN}&end={DATE_END}")
@@ -31,6 +20,8 @@ def visits_API_download():
     df_visits = pd.DataFrame(data)
     df_visits.reset_index(drop=True, inplace=True)
     return df_visits
+
+
 
 
 def registrations_API_download():
@@ -105,9 +96,7 @@ def ads_json():
     return df_ads_json
     
 
-def graf(df_conversion_group_no_platform, df_visits_API, df_registrations_API):
-
-#graf_total_visits
+def graf_total_visits(df_conversion_group_no_platform):
 
     df_conversion_group_no_platform = ads_json()
     df_conversion_group_no_platform_copy = df_conversion_group_no_platform.copy()
@@ -122,10 +111,16 @@ def graf(df_conversion_group_no_platform, df_visits_API, df_registrations_API):
     plt.title('Total Visits')
     plt.xticks(rotation=45)
     
-    save_graf('total_visits_chart')
+    current_file_path = os.path.abspath(__file__)
+    current_directory = os.path.dirname(current_file_path)
+    charts_directory = os.path.join(current_directory, 'charts')
+    if not os.path.exists(charts_directory):
+        os.makedirs(charts_directory)
+
+    return plt.savefig(os.path.join(charts_directory, 'total_visits_chart.png'), bbox_inches='tight')
 
 
-#graf_visit_grouped_platform
+def graf_visit_grouped_platform(df_visits_API, df_registrations_API):
 
     df_visits_group = conversion(df_visits_API, df_registrations_API)
     df_graf_visit_grouped_platform = df_visits_group.copy(deep=True)
@@ -139,10 +134,16 @@ def graf(df_conversion_group_no_platform, df_visits_API, df_registrations_API):
     ax.yaxis.grid(True)
     plt.xticks(rotation=45, ha='right')
     ax.xaxis.set_major_locator(plt.MaxNLocator(30))
-    save_graf('total_visits_platform_chart')
+    current_file_path = os.path.abspath(__file__)
+    current_directory = os.path.dirname(current_file_path)
+    charts_directory = os.path.join(current_directory, 'charts')
+    if not os.path.exists(charts_directory):
+        os.makedirs(charts_directory)
+
+    return plt.savefig(os.path.join(charts_directory, 'total_visits_platform_chart.png'), bbox_inches='tight')
 
 
-#graf_total_registrations
+def graf_total_registrations(df_conversion_group_no_platform):
     
     df_conversion_group_no_platform = ads_json()
     df_conversion_group_no_platform_copy = df_conversion_group_no_platform.copy()
@@ -156,10 +157,16 @@ def graf(df_conversion_group_no_platform, df_visits_API, df_registrations_API):
     plt.title('Total registrations')
     plt.xticks(rotation=45)
     
-    save_graf('total_registrations_chart')
+    current_file_path = os.path.abspath(__file__)
+    current_directory = os.path.dirname(current_file_path)
+    charts_directory = os.path.join(current_directory, 'charts')
+    if not os.path.exists(charts_directory):
+        os.makedirs(charts_directory)
+
+    return plt.savefig(os.path.join(charts_directory, 'total_registrations_chart.png'), bbox_inches='tight')
 
 
-#graf_registrations_grouped_platform
+def graf_registrations_grouped_platform(df_visits_API, df_registrations_API):  
     df_visits_group = conversion(df_visits_API, df_registrations_API) 
     df_graf_visit_grouped_platform = df_visits_group.copy(deep=True)
     df_graf_visit_grouped_platform['date_group'] = pd.to_datetime(df_graf_visit_grouped_platform['date_group'])
@@ -174,10 +181,16 @@ def graf(df_conversion_group_no_platform, df_visits_API, df_registrations_API):
     plt.xticks(rotation=45, ha='right')
     ax.xaxis.set_major_locator(plt.MaxNLocator(30))
 
-    save_graf('total_registrations_platform_chart')
+    current_file_path = os.path.abspath(__file__)
+    current_directory = os.path.dirname(current_file_path)
+    charts_directory = os.path.join(current_directory, 'charts')
+    if not os.path.exists(charts_directory):
+        os.makedirs(charts_directory)
+
+    return plt.savefig(os.path.join(charts_directory, 'total_registrations_platform_chart.png'), bbox_inches='tight')
 
 
-#conversion_platform
+def conversion_platform(df_visits_API, df_registrations_API):   
     df_conversion = conversion(df_visits_API, df_registrations_API)
     df_conversion_copy = df_conversion.copy(deep=True)
 
@@ -213,10 +226,16 @@ def graf(df_conversion_group_no_platform, df_visits_API, df_registrations_API):
 
     plt.tight_layout()
 
-    save_graf('conversion_platform_chart')
+    current_file_path = os.path.abspath(__file__)
+    current_directory = os.path.dirname(current_file_path)
+    charts_directory = os.path.join(current_directory, 'charts')
+    if not os.path.exists(charts_directory):
+        os.makedirs(charts_directory)
+
+    return plt.savefig(os.path.join(charts_directory, 'conversion_platform_chart.png'), bbox_inches='tight')
     
 
-#conversion_total
+def conversion_total(df_visits_API, df_registrations_API):  
     df_conversion = conversion(df_visits_API, df_registrations_API)
     df_conversion_total = df_conversion.copy(deep=True)
 
@@ -232,10 +251,16 @@ def graf(df_conversion_group_no_platform, df_visits_API, df_registrations_API):
     plt.gca().xaxis.set_major_locator(MultipleLocator(10))
     plt.xticks(rotation=45, ha='right')
 
-    save_graf('conversion_total_chart')
+    current_file_path = os.path.abspath(__file__)
+    current_directory = os.path.dirname(current_file_path)
+    charts_directory = os.path.join(current_directory, 'charts')
+    if not os.path.exists(charts_directory):
+        os.makedirs(charts_directory)
+
+    return plt.savefig(os.path.join(charts_directory, 'conversion_total_chart.png'), bbox_inches='tight')
     
 
-#ads_total
+def ads_total():  
     ads_group = ads_download()
     df_ads_total = ads_group.copy(deep=True)
     df_ads_total = df_ads_total.groupby('date_group')['cost'].sum().reset_index()
@@ -246,10 +271,16 @@ def graf(df_conversion_group_no_platform, df_visits_API, df_registrations_API):
     plt.ylabel('cost')
     plt.grid(True)
 
-    save_graf('ads_total_chart')
+    current_file_path = os.path.abspath(__file__)
+    current_directory = os.path.dirname(current_file_path)
+    charts_directory = os.path.join(current_directory, 'charts')
+    if not os.path.exists(charts_directory):
+        os.makedirs(charts_directory)
+
+    return plt.savefig(os.path.join(charts_directory, 'ads_total_chart.png'), bbox_inches='tight')
 
 
-#visit_ads
+def visit_ads():
     df_ads = ads_download()
 
     df_ads_group_1 = df_ads.copy(deep=True)
@@ -310,10 +341,17 @@ def graf(df_conversion_group_no_platform, df_visits_API, df_registrations_API):
     by_label = dict(zip(labels, handles))
     plt.legend(by_label.values(), by_label.keys())
 
-    save_graf('visit_ads_chart')
+
+    current_file_path = os.path.abspath(__file__)
+    current_directory = os.path.dirname(current_file_path)
+    charts_directory = os.path.join(current_directory, 'charts')
+    if not os.path.exists(charts_directory):
+        os.makedirs(charts_directory)
+
+    return plt.savefig(os.path.join(charts_directory, 'visit_ads_chart.png'), bbox_inches='tight')
 
 
-#registrations_ads
+def registrations_ads():
     df_ads = ads_download()
 
     df_ads_group_1 = df_ads.copy(deep=True)
@@ -374,9 +412,14 @@ def graf(df_conversion_group_no_platform, df_visits_API, df_registrations_API):
     by_label = dict(zip(labels, handles))
     plt.legend(by_label.values(), by_label.keys())
 
-    save_graf('registrations_ads_chart')
 
+    current_file_path = os.path.abspath(__file__)
+    current_directory = os.path.dirname(current_file_path)
+    charts_directory = os.path.join(current_directory, 'charts')
+    if not os.path.exists(charts_directory):
+        os.makedirs(charts_directory)
 
+    return plt.savefig(os.path.join(charts_directory, 'registrations_ads_chart.png'), bbox_inches='tight')
 
 
 def run_all():
@@ -386,7 +429,16 @@ def run_all():
     ads_download()
     ads_json()
     df_conversion_group_no_platform = ads_json()
-    graf(df_conversion_group_no_platform, df_visits_API, df_registrations_API)
+    graf_total_visits(df_conversion_group_no_platform)
+    graf_visit_grouped_platform(df_visits_API, df_registrations_API)
+    df_conversion_group_no_platform = ads_json()
+    graf_total_registrations(df_conversion_group_no_platform)
+    graf_registrations_grouped_platform(df_visits_API, df_registrations_API)
+    conversion_platform(df_visits_API, df_registrations_API)
+    conversion_total(df_visits_API, df_registrations_API)
+    ads_total()
+    visit_ads()
+    registrations_ads()
 
 
 if __name__ == "__main__":

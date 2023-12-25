@@ -19,7 +19,7 @@ DATE_END = '2023-06-01'
 def save_graf(name_png):
     current_file_path = os.path.abspath(__file__)
     current_directory = os.path.dirname(current_file_path)
-    charts_directory = os.path.join(current_directory, 'charts')
+    #charts_directory = os.path.join(current_directory, 'charts')
     charts_directory = os.path.join(current_directory)
     if not os.path.exists(charts_directory):
         os.makedirs(charts_directory)
